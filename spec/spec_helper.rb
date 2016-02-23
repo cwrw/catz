@@ -2,6 +2,7 @@ require 'capybara/rspec'
 require 'webmock/rspec'
 require 'nokogiri'
 require 'open-uri'
+require 'catz'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

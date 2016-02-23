@@ -10,7 +10,11 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://github.com/cwrw/catz'
   s.license     = 'MIT'
   s.files       = ["README.md"] + Dir["lib/**/*.*"]
+  s.executables = ["catz"]
 
+  s.add_dependency "faraday"
+  s.add_dependency "faraday_middleware"
+  s.add_dependency "multi_xml"
   s.add_development_dependency "rake", "~> 10.5"
   s.add_development_dependency "rspec", "~> 3.4"
   s.add_development_dependency "rubocop", "~> 0.37"
