@@ -1,0 +1,17 @@
+Style/Encoding:
+  Enabled: false
+
+Documentation:
+  Enabled: false
+
+StringLiterals:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 140
+
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Style/SignalException:
+  Enabled: false
