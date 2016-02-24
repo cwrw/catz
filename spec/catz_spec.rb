@@ -1,86 +1,42 @@
 require 'spec_helper'
 
 RSpec.feature "Utility commands" do
-  let(:url) { "http://thecatapi.com/api/images/get?format=xml&type=jpg" }
-  let(:body) do
-    Nokogiri::XML(
-      <<-EOF
-        <response>
-          <data>
-              <images>
-                  <image>
-                      <url>http://25.media.tumblr.com/Jjkybd3nSaqb3aswN368Nio3_500.jpg</url>
-                      <id>758</id>
-                      <source_url>http://thecatapi.com/?id=758</source_url>
-                  </image>
-              </images>
-          </data>
-        </response>
-      EOF
-    ).to_xml
-  end
-
-  before do
-    stub_request(:get, url)
-      .to_return(
-        status: 200,
-        body: body
-      )
-  end
-
   context "browser" do
     it "open a new browser window displaying an image of a cat" do
-      expect(subject.command("browser")).to eq("open http://thecatapi.com/api/images/get?format=xml&type=jpg")
+      allow(ARGV).to receive(:[]).and_return('browser')
+      allow(Catz::Browser).to receive(:execute).and_return("open http://thecatapi.com/api/images/get?format=xml&type=jpg")
+      expect(Catz.commands).to eq("open http://thecatapi.com/api/images/get?format=xml&type=jpg")
     end
   end
 
   context "file" do
     it "save on the desktop an image of a cat, as an image file" do
-      expect(subject).to receive(:open).with('http://25.media.tumblr.com/Jjkybd3nSaqb3aswN368Nio3_500.jpg')
-      subject.command("browser")
+      allow(ARGV).to receive(:[]).and_return('file')
+      allow(Catz::File).to receive(:execute).and_return("echo Cat image: Jjkybd3nSaqb3aswN368Nio3_500.jpg successfully saved to desktop")
+      expect(Catz.commands).to eq('echo Cat image: Jjkybd3nSaqb3aswN368Nio3_500.jpg successfully saved to desktop')
     end
   end
 
   context "fact" do
-    let(:url) { "http://catfacts-api.appspot.com/api/facts" }
-    let(:body) do
-      {
-        "facts": [
-            "After humans, mountain lions have the largest range of any mammal in the Western Hemisphere."
-        ],
-        "success": "true"
-      }.to_json
-    end
     it "should print to stdout a cat fact" do
-      expect(subject.command("file")).to eq("After humans, mountain lions have the largest range of any mammal in the Western Hemisphere.")
+      allow(ARGV).to receive(:[]).and_return('fact')
+      allow(Catz::Fact).to receive(:execute).and_return("echo After humans, mountain lions have the largest")
+      expect(Catz.commands).to eq("echo After humans, mountain lions have the largest")
     end
   end
 
   context "categories" do
-    let(:url) { "http://thecatapi.com/api/categories/list" }
-    let(:body) do
-      Nokogiri::XML(
-      <<-EOF
-        <response>
-          <data>
-            <categories>
-              <category>
-                <id>1</id>
-                <name>hats</name>
-              </category>
-              <category>
-                <id>2</id>
-                <name>space</name>
-              </category>
-            </categories>
-          </data>
-        </response>
-      EOF
-    ).to_xml
+    it "should print to stdout the number of cat categories" do
+      allow(ARGV).to receive(:[]).and_return('categories')
+      allow(Catz::Categories).to receive(:execute).and_return("2")
+      expect(Catz.commands).to eq("2")
     end
+  end
 
-    it "should print to stdout a list of cat categories" do
-      expect(subject.command("categories")).to eq("1) hats\n2) space")
+  context "no arg" do
+    it "should print out relevant message" do
+      allow(Catz).to receive(:system).and_return("You didn't provide an output")
+      expect(Catz.commands).to eq("You didn't provide an output")
     end
   end
 end

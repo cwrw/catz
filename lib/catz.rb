@@ -1,7 +1,15 @@
-require "catz/base"
+require 'open-uri'
 require 'faraday'
 require 'faraday_middleware'
 require 'multi_xml'
+require "catz/base"
+require 'catz/commands'
 require 'catz/client'
 require 'catz/client/exceptions'
 require 'catz/client/raise_exception_middleware'
+require 'catz/commands/browser'
+require 'catz/commands/file'
+require 'catz/commands/fact'
+require 'catz/commands/categories'
+
+require 'pry'
