@@ -1,7 +1,6 @@
 require 'capybara/rspec'
 require 'webmock/rspec'
 require 'nokogiri'
-require 'open-uri'
 require 'catz'
 
 RSpec.configure do |config|
@@ -14,7 +13,7 @@ RSpec.configure do |config|
   end
 
   config.disable_monkey_patching!
-  config.warnings = true
+  config.warnings = false
   config.order = :random
 
   config.default_formatter = 'doc' if config.files_to_run.one?
