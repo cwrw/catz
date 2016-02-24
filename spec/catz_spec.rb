@@ -34,9 +34,9 @@ RSpec.feature "Utility commands" do
   end
 
   context "no arg" do
-    it "should print out relevant message" do
-      allow(Catz).to receive(:system).and_return("You didn't provide an output")
-      expect(Catz.commands).to eq("You didn't provide an output")
+    it "should defaults to browser" do
+      allow(Catz::Browser).to receive(:execute).and_return("open http://thecatapi.com/api/images/get?format=xml&type=jpg")
+      expect(Catz.commands).to eq("open http://thecatapi.com/api/images/get?format=xml&type=jpg")
     end
   end
 end

@@ -10,7 +10,7 @@ class Catz
     when "categories"
       Categories.execute
     else
-      system "echo Please provide one of the following options: browser | file | fact | categories"
+      Browser.execute
     end
   end
 end
